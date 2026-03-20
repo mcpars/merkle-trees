@@ -46,8 +46,18 @@ def generate_primes(num_primes):
         returns list (with length n) of primes (as ints) in ascending order
     """
     primes_list = []
+    candidate = 2
 
-    #TODO YOUR CODE HERE
+    while len(prime_list) < num_primes:
+        is_prime = True
+        for p in primes_list:
+            if p*p > candidate:
+                break
+            if candidate % p == 0:
+                is_prime = false
+                break
+        if is_prime:
+            primes_list.append(candidate)
 
     return primes_list
 
