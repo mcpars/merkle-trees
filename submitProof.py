@@ -1,4 +1,5 @@
 import eth_account
+import eth_account.messages
 import random
 import string
 import json
@@ -49,13 +50,13 @@ def generate_primes(num_primes):
     primes_list = []
     candidate = 2
 
-    while len(prime_list) < num_primes:
+    while len(primes_list) < num_primes:
         is_prime = True
         for p in primes_list:
             if p*p > candidate:
                 break
             if candidate % p == 0:
-                is_prime = false
+                is_prime = False
                 break
         if is_prime:
             primes_list.append(candidate)
@@ -94,7 +95,7 @@ def build_merkle(leaves):
             left = current_level[i]
             right = current_level[i+1]
             parent = hash_pair(left, right)
-            next_lvel.append(parent)
+            next_level.append(parent)
         tree.append(next_level)
         current_level = next_level
 
@@ -133,7 +134,7 @@ def sign_challenge(challenge):
     addr = acct.address
     eth_sk = acct.key
 
-    eth_encoded_msg = eth_account.messages.encode_defunt(text=challenge)
+    eth_encoded_msg = eth_account.messages.encode_defunct(text=challenge)
     
     eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg, private_key = eth_sk)
 
@@ -152,7 +153,7 @@ def send_signed_msg(proof, random_leaf):
     address, abi = get_contract_info(chain)
     w3 = connect_to(chain)
     
-    contract = w3.eth.contract(address = Web3.to_checksum_address(address), abi = abi
+    contract = w3.eth.contract(address = Web3.to_checksum_address(address), abi = abi)
     nonce = w3.eth.get_transaction_count(acct.address)
     gas_price = we.eth.gas_price
 
